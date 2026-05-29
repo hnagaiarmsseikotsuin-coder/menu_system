@@ -290,6 +290,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'No
   transition:all 0.2s;letter-spacing:0.08em;
 }
 .interview-refresh:hover{background:#a93226;}
+.interview-flow-btn{
+  background:#fff;border:1px solid rgba(192,57,43,0.28);color:var(--accent);
+  font-family:'Noto Serif JP',serif;font-size:14px;padding:12px 30px;
+  cursor:pointer;transition:all 0.2s;letter-spacing:0.08em;
+}
+.interview-flow-btn:hover{background:rgba(192,57,43,0.06);}
+.interview-post-check-btn{
+  background:var(--surface);border:1px solid var(--border);color:var(--text);
+  font-family:'Noto Serif JP',serif;font-size:14px;padding:12px 30px;
+  cursor:pointer;transition:all 0.2s;letter-spacing:0.08em;
+}
+.interview-post-check-btn:hover{background:#fff;color:var(--accent);border-color:rgba(192,57,43,0.28);}
 @media (max-width: 900px){
   .interview-grid{grid-template-columns:1fr;}
   .interview-card.wide{grid-column:auto;}
@@ -325,6 +337,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'No
 .visit-mode-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .visit-mode-first .impact-panel,.visit-mode-first .tag-panel,.visit-mode-first .detail-panel{display:none;}
 .visit-mode-second .detail-panel{display:none;}
+.visit-mode-first.post-check-open .post-check-panel,
+.visit-mode-second.post-check-open .post-check-panel{display:block;}
 .visual-summary{
   background:rgba(255,255,255,0.92);border:1px solid var(--border);
   padding:28px;box-shadow:0 12px 40px rgba(0,0,0,0.05);
@@ -333,6 +347,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'No
 .visual-title{font-family:'Noto Serif JP',serif;font-size:22px;font-weight:700;letter-spacing:0.08em;color:var(--text);}
 .visual-sub{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.42em;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
 .visual-note{font-size:13px;color:var(--text2);letter-spacing:0.05em;line-height:1.7;text-align:right;}
+.embedded-flow{padding:22px;}
+.embedded-flow .visual-summary-head{margin-bottom:16px;}
+.embedded-flow-steps{display:grid;grid-template-columns:1fr;gap:12px;}
+.embedded-flow-step{
+  position:relative;display:grid;grid-template-columns:86px 72px 112px 1fr;
+  align-items:center;gap:16px;background:rgba(250,249,247,0.84);
+  border:1px solid var(--border);padding:14px 18px;
+}
+.embedded-flow-step:not(:last-child)::after{
+  content:'↓';position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);
+  display:flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border:1px solid var(--border);border-radius:50%;background:var(--bg);
+  color:var(--accent);font-size:16px;z-index:2;
+}
+.embedded-flow-num{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.24em;color:var(--accent);text-transform:uppercase;}
+.embedded-flow-icon{width:58px;height:58px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.embedded-flow-title{font-size:24px;font-weight:700;letter-spacing:0.06em;color:var(--text);}
+.embedded-flow-desc{font-size:17px;line-height:1.55;letter-spacing:0.04em;color:var(--text);}
 .visual-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:24px;align-items:stretch;}
 .body-map-panel,.visual-side-panel,.impact-panel,.tag-panel,.detail-panel{
   background:rgba(250,249,247,0.84);border:1px solid var(--border);padding:22px;
@@ -396,6 +428,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'No
 }
 @media (max-width: 760px){
   #screen-shinkan-interview .shinkan-body{padding:24px 22px 34px;}.visit-mode-switch{flex-direction:column;align-items:flex-start;}.visual-summary{padding:20px;}.visual-summary-head{flex-direction:column;align-items:flex-start;}.visual-note{text-align:left;}.impact-grid,.tag-sections,.post-check-grid,.detail-panel .interview-grid{grid-template-columns:1fr;}
+  .embedded-flow-step{grid-template-columns:64px 1fr;gap:10px;}.embedded-flow-icon{grid-row:1 / span 3;width:54px;height:54px;font-size:26px;}.embedded-flow-title{font-size:22px;}.embedded-flow-desc{font-size:16px;}
 }
 
 /* ===== 自費メニュー画面 ===== */
@@ -634,6 +667,158 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'No
 }
 .itb.sel{background:#1a1512;color:#fff;border-color:#1a1512;}
 
+/* ===== 患者向けタッチパネル表示調整 ===== */
+html,body{font-size:18px;}
+.tap-hint,.select-eyebrow,.select-card-label,.shinkan-eyebrow,.menu-eyebrow{font-size:13px;}
+.select-title{font-size:28px;margin-bottom:34px;line-height:1.5;}
+.select-cards{gap:24px;}
+.select-card{width:360px;min-height:260px;padding:42px 34px;gap:18px;}
+.select-card-icon{font-size:58px;}
+.select-card-title{font-size:30px;line-height:1.35;}
+.select-card-desc{font-size:18px;line-height:1.75;}
+.select-back{font-size:13px;bottom:24px;}
+
+.shinkan-header,.menu-header{padding:24px 48px 18px;}
+.shinkan-title,.menu-title{font-size:34px;line-height:1.35;}
+.back-btn{font-size:18px;min-height:52px;padding:12px 30px;}
+.shinkan-body{padding:32px 48px;}
+.agenda{max-width:1060px;}
+.agenda-step{padding:34px 22px;gap:18px;}
+.step-num{font-size:13px;}
+.step-icon{width:92px;height:92px;font-size:42px;}
+.step-title{font-size:28px;line-height:1.35;}
+.step-desc{font-size:18px;line-height:1.75;}
+
+#screen-shinkan-flow .shinkan-header{padding:14px 44px 10px;align-items:center;}
+#screen-shinkan-flow .shinkan-eyebrow{margin-bottom:2px;}
+#screen-shinkan-flow .shinkan-title{font-size:30px;}
+#screen-shinkan-flow .flow-header-actions{display:flex;gap:12px;align-items:center;}
+#screen-shinkan-flow .flow-next-btn{
+  background:var(--accent);border:1px solid var(--accent);color:#fff;
+  font-size:18px;font-family:'Noto Serif JP',serif;min-height:52px;
+  padding:12px 30px;cursor:pointer;letter-spacing:0.08em;transition:all 0.2s;
+}
+#screen-shinkan-flow .flow-next-btn:hover{background:#a93226;border-color:#a93226;}
+#screen-shinkan-flow .shinkan-body{padding:18px 42px 30px;align-items:center;}
+#screen-shinkan-flow .agenda{
+  width:100%;max-width:1180px;min-height:0;
+  display:grid;grid-template-columns:1fr;gap:30px;
+}
+#screen-shinkan-flow .agenda-step{
+  background:rgba(255,255,255,0.86);border:1px solid var(--border);
+  display:grid;grid-template-columns:110px 112px 1px 160px 1fr;
+  align-items:center;justify-items:start;min-height:150px;padding:20px 34px;gap:24px;
+  box-shadow:0 16px 48px rgba(0,0,0,0.05);
+}
+#screen-shinkan-flow .agenda-step:not(:last-child)::after{
+  content:'↓';left:50%;right:auto;top:auto;bottom:-32px;transform:translateX(-50%);
+  display:flex;align-items:center;justify-content:center;width:34px;height:34px;
+  border:1px solid var(--border);border-radius:50%;background:var(--bg);
+  font-size:22px;color:var(--accent);opacity:0.9;z-index:4;
+}
+#screen-shinkan-flow .step-num{font-size:16px;}
+#screen-shinkan-flow .step-icon{width:90px;height:90px;font-size:46px;}
+#screen-shinkan-flow .step-title{font-size:34px;line-height:1.25;}
+#screen-shinkan-flow .step-desc{font-size:24px;line-height:1.55;max-width:none;text-align:left;white-space:nowrap;}
+#screen-shinkan-flow .step-divider{width:1px;height:76px;}
+
+.shinkan-menu-cards{max-width:1160px;gap:22px;}
+.shinkan-menu-card{min-height:280px;padding:36px 28px;gap:18px;}
+.shinkan-menu-icon{font-size:56px;}
+.shinkan-menu-title{font-size:30px;line-height:1.35;}
+.shinkan-menu-desc,.shinkan-subtitle{font-size:18px;line-height:1.75;}
+.info-panel{max-width:1120px;padding:38px 44px;}
+.info-text{font-size:20px;line-height:1.9;}
+.info-list{padding:22px 28px;gap:12px;}
+.info-list li{font-size:18px;line-height:1.65;}
+
+#screen-shinkan-interview .shinkan-header{padding:14px 44px 10px;}
+#screen-shinkan-interview .shinkan-title{font-size:30px;}
+#screen-shinkan-interview .shinkan-body{padding:18px 44px 32px;}
+.interview-summary{max-width:1240px;gap:18px;}
+.interview-meta{font-size:16px;}
+.interview-patient{font-size:18px;}
+.interview-card{padding:22px 26px;min-height:124px;}
+.interview-label{font-size:11px;}
+.interview-text,.rank-label,.life-summary,.detail-section-content{font-size:19px;line-height:1.75;}
+.interview-highlight{font-size:22px;}
+.interview-loading,.interview-error{font-size:20px;}
+.interview-refresh{font-size:18px;min-height:52px;padding:12px 34px;}
+.interview-flow-btn{font-size:18px;min-height:52px;padding:12px 34px;}
+.interview-post-check-btn{font-size:18px;min-height:52px;padding:12px 34px;}
+.visit-mode-switch{padding:16px 20px;}
+.visit-mode-label{font-size:17px;}
+.visit-mode-btn{font-size:17px;min-height:48px;padding:10px 20px;}
+.visual-summary{padding:24px;}
+.visual-title{font-size:28px !important;line-height:1.35;}
+.visual-note{font-size:17px;line-height:1.65;}
+.embedded-flow-desc{font-size:17px;}
+.panel-kicker{font-size:11px;}
+.body-map-panel,.visual-side-panel,.impact-panel,.tag-panel,.detail-panel{padding:20px;}
+.body-map-canvas{height:410px;}
+.body-map-empty{font-size:16px;}
+.body-marker{width:38px;height:38px;font-size:17px;}
+.gauge-value{font-size:50px;}
+.gauge-caption,.impact-status,.tag-title,.post-check-title{font-size:17px;}
+.impact-card{padding:18px;min-height:108px;}
+.impact-name{font-size:18px;}
+.symptom-tag,.post-check-option,.impact-badge{font-size:16px;}
+.post-check-option{min-height:44px;padding:9px 14px;}
+.post-check-memo{font-size:17px;min-height:108px;}
+.post-check-summary{font-size:18px;}
+
+.menu-cards{gap:18px;padding:24px 48px;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y pinch-zoom;}
+.menu-card{padding:28px 26px;gap:12px;min-height:210px;}
+.card-eyebrow{font-size:11px;}
+.card-icon{font-size:48px;}
+.card-name{font-size:30px;line-height:1.35;}
+.card-price{font-size:28px;}
+.card-tag{font-size:15px;padding:5px 12px;}
+
+.detail-header{padding:20px 48px;}
+.detail-header-name{font-size:16px;}
+.detail-body{overflow-y:auto;min-height:0;}
+.detail-left,.detail-right{padding:38px 48px;}
+.detail-right{gap:22px;}
+.detail-icon{font-size:72px;margin-bottom:12px;}
+.detail-name{font-size:52px;line-height:1.25;}
+.detail-price{font-size:48px;}
+.detail-section-label{font-size:11px;}
+.detail-section-content{font-size:20px;}
+.detail-tag{font-size:17px;padding:8px 18px;}
+.record-area{padding:18px 48px;gap:18px;}
+.record-label{font-size:13px;}
+.btn-success,.btn-decline{font-size:34px;min-width:108px;min-height:64px;padding:12px 34px;}
+.record-count{font-size:13px;}
+.toast{font-size:18px;padding:16px 40px;}
+
+#ink-btn{width:64px;height:64px;font-size:26px;}
+.itb{width:52px;height:52px;font-size:17px;}
+
+@media (max-width: 900px){
+  .select-cards,.shinkan-menu-cards{flex-direction:column;}
+  .select-card{width:min(86vw,560px);min-height:0;}
+  .shinkan-menu-card{min-height:190px;}
+  .info-section,.detail-body{grid-template-columns:1fr;}
+  #screen-shinkan-flow .agenda{grid-template-columns:1fr;}
+  #screen-shinkan-flow .agenda-step{grid-template-columns:88px 92px 1px 126px 1fr;min-height:132px;padding:18px 24px;gap:16px;}
+  #screen-shinkan-flow .step-icon{width:76px;height:76px;font-size:38px;}
+  #screen-shinkan-flow .step-title{font-size:28px;}
+  #screen-shinkan-flow .step-desc{font-size:20px;}
+  .menu-cards{grid-template-columns:repeat(2,1fr);padding:24px 32px;}
+  .detail-left,.detail-right{padding:30px 34px;}
+}
+@media (max-width: 760px){
+  .shinkan-header,.menu-header,.detail-header{padding:18px 24px 14px;}
+  .shinkan-title,.menu-title{font-size:28px;}
+  .shinkan-body,#screen-shinkan-interview .shinkan-body{padding:22px 22px 34px;}
+  #screen-shinkan-flow .agenda-step{grid-template-columns:72px 1fr;min-height:0;padding:18px;gap:12px;}
+  #screen-shinkan-flow .step-icon{width:64px;height:64px;font-size:32px;grid-row:1 / span 3;}
+  #screen-shinkan-flow .step-divider{display:none;}
+  .menu-cards{grid-template-columns:1fr;padding:22px;}
+  .record-area{padding:16px 22px;flex-wrap:wrap;}
+}
+
 </style>
 </head>
 <body>
@@ -738,6 +923,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'No
       <div id="interview-summary-content" class="interview-loading">問診内容を読み込み中です</div>
       <div class="interview-actions">
         <button class="interview-refresh" onclick="fetchLatestInterview()">最新の問診を読み込む</button>
+        <button class="interview-flow-btn" onclick="showShinkanFlow()">本日の施術の流れを見る</button>
+        <button class="interview-post-check-btn" onclick="showPostTreatmentCheck()">施術後チェック</button>
+        <button class="interview-post-check-btn" onclick="showShinkanAftercare()">施術後の注意点</button>
         <button class="back-btn" onclick="backToShinkanMenu()">← 戻る</button>
       </div>
     </div>
@@ -748,7 +936,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'No
       <div class="shinkan-eyebrow">Today's Treatment Flow</div>
       <div class="shinkan-title">本日の施術の流れ</div>
     </div>
-    <button class="back-btn" onclick="backToShinkanMenu()">← 戻る</button>
+    <div class="flow-header-actions">
+      <button class="back-btn" onclick="showShinkanInterview()">本日の問診に戻る</button>
+      <button class="flow-next-btn" onclick="showShinkanAftercare()">施術後の注意点</button>
+    </div>
   </div>
   <div class="shinkan-body">
     <div class="shinkan-logo-bg">
@@ -760,28 +951,28 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'No
         <div class="step-icon">📝</div>
         <div class="step-divider"></div>
         <div class="step-title">問診</div>
-        <div class="step-desc">症状や生活でのお困りごとを<br>丁寧に確認します</div>
+        <div class="step-desc">症状や生活でのお困りごとを丁寧に確認します。</div>
       </div>
       <div class="agenda-step">
         <div class="step-num">Step 02</div>
         <div class="step-icon">🔍</div>
         <div class="step-divider"></div>
         <div class="step-title">検査</div>
-        <div class="step-desc">姿勢・筋肉・関節の動きを<br>総合的に確認します</div>
+        <div class="step-desc">姿勢・筋肉・関節の動きを総合的に確認します。</div>
       </div>
       <div class="agenda-step">
         <div class="step-num">Step 03</div>
         <div class="step-icon">🙌</div>
         <div class="step-divider"></div>
         <div class="step-title">施術</div>
-        <div class="step-desc">お身体の状態に合わせて<br>丁寧に施術を行います</div>
+        <div class="step-desc">お身体の状態に合わせて、丁寧に施術を行います。<br>状況によって運動指導も行います。</div>
       </div>
       <div class="agenda-step">
         <div class="step-num">Step 04</div>
         <div class="step-icon">💬</div>
         <div class="step-divider"></div>
         <div class="step-title">説明</div>
-        <div class="step-desc">状態と今後の方針を<br>わかりやすくお伝えします</div>
+        <div class="step-desc">状態と今後の方針をわかりやすくお伝えします。</div>
       </div>
     </div>
   </div>
@@ -1229,6 +1420,17 @@ function renderVisualSummary(interviewData){
   const ranking = normalizeBodyRankItems(interviewData);
   return `<section class="visual-summary"><div class="visual-summary-head"><div><div class="visual-sub">Today Summary</div><div class="visual-title">本日の状態サマリー</div></div><div class="visual-note">部位・強さ・生活への影響を、説明前に確認しやすく整理しています。</div></div><div class="visual-layout">${renderBodyMap(interviewData)}<div class="visual-side-panel"><div class="panel-kicker">Main Points</div><div class="symptom-rank">${ranking.slice(0,3).map(function(part,index){return `<div class="rank-row"><div class="rank-badge">${index+1}</div><div class="rank-label">${escapeHtml(part.label || '未入力')}</div></div>`;}).join('')}</div>${renderPainGauge(pain)}<div class="life-summary"><strong>生活への影響：</strong><br>${escapeHtml(activeLife.length ? activeLife.join('、') + 'に影響が出ている可能性があります。' : '大きな影響項目は未入力です。必要に応じて確認します。')}</div></div></div></section>`;
 }
+function renderEmbeddedTreatmentFlow(){
+  const steps = [
+    {num:'Step 01', icon:'📝', title:'問診', desc:'症状や生活でのお困りごとを丁寧に確認します。'},
+    {num:'Step 02', icon:'🔍', title:'検査', desc:'姿勢・筋肉・関節の動きを総合的に確認します。'},
+    {num:'Step 03', icon:'🙌', title:'施術', desc:'お身体の状態に合わせて、丁寧に施術を行います。<br>状況によって運動指導も行います。'},
+    {num:'Step 04', icon:'💬', title:'説明', desc:'状態と今後の方針をわかりやすくお伝えします。'}
+  ];
+  return `<section class="visual-summary embedded-flow"><div class="visual-summary-head"><div><div class="visual-sub">Treatment Flow</div><div class="visual-title">本日の施術の流れ</div></div><div class="visual-note">問診内容を確認したあと、上から順番に進めます。</div></div><div class="embedded-flow-steps">${steps.map(function(step){
+    return `<div class="embedded-flow-step"><div class="embedded-flow-num">${step.num}</div><div class="embedded-flow-icon">${step.icon}</div><div class="embedded-flow-title">${step.title}</div><div class="embedded-flow-desc">${step.desc}</div></div>`;
+  }).join('')}</div></section>`;
+}
 function renderVisitModeSwitch(){
   return `<div class="visit-mode-switch"><div class="visit-mode-label">来院回数に合わせて表示を切替</div><div class="visit-mode-buttons"><button class="visit-mode-btn active" data-visit-mode="first" onclick="setInterviewVisitMode('first')">初回</button><button class="visit-mode-btn" data-visit-mode="second" onclick="setInterviewVisitMode('second')">2回目</button><button class="visit-mode-btn" data-visit-mode="third" onclick="setInterviewVisitMode('third')">3回目以降</button></div></div>`;
 }
@@ -1254,22 +1456,47 @@ function renderPostTreatmentCheck(){
       return `<label class="post-check-option"><input type="radio" name="post-${group.name}" value="${value}" ${index === 0 ? 'checked' : ''} onchange="updatePostTreatmentSummary()"> ${value}</label>`;
     }).join('')}</div></div>`;
   }).join('');
-  return `<section class="detail-panel post-check-panel"><div class="panel-kicker">After Treatment Check</div><div class="visual-title" style="font-size:19px;margin-bottom:8px;">施術後チェック</div><div class="visual-note" style="text-align:left;margin-bottom:14px;">初回施術後の確認結果を、必要に応じて患者さま向けに整理します。</div><div class="post-check-grid">${optionsHtml}<div class="post-check-item" style="grid-column:1 / -1;"><div class="post-check-title">本日の確認メモ</div><textarea id="post-check-memo" class="post-check-memo" oninput="updatePostTreatmentSummary()" placeholder="例：首を右に向けた時のつっぱり感を確認。施術後は動きやすさを一緒に確認。"></textarea></div><div class="post-check-item" style="grid-column:1 / -1;"><div class="post-check-title">患者向けまとめ文</div><div id="post-check-summary" class="post-check-summary"></div></div></div></section>`;
+  return `<section class="detail-panel post-check-panel"><div class="panel-kicker">After Treatment Check</div><div class="visual-title" style="font-size:19px;margin-bottom:8px;">施術後チェック</div><div class="visual-note" style="text-align:left;margin-bottom:14px;">初回施術後の確認結果を、必要に応じて患者さま向けに整理します。</div><div class="post-check-grid">${optionsHtml}<div class="post-check-item" style="grid-column:1 / -1;"><div class="post-check-title">患者様向けまとめ文</div><div id="post-check-summary" class="post-check-summary"></div></div><div class="post-check-item" style="grid-column:1 / -1;"><div class="post-check-title">次回ご来院の目安</div><div id="post-check-next-visit" class="post-check-summary"></div></div></div></section>`;
 }
 function getPostCheckValue(name){
   const checked = document.querySelector(`input[name="post-${name}"]:checked`);
   return checked ? checked.value : 'なし';
 }
+function getNextVisitGuidance(values){
+  if(values.includes('強め')){
+    return '反応が残りやすい状態です。早めの再確認をおすすめします。';
+  }
+  if(values.includes('中等度') || values.includes('あり')){
+    return 'できるだけ早めに、次回も状態確認を行いましょう。';
+  }
+  if(values.includes('軽度') || values.includes('少しあり')){
+    return '2〜3日以内を目安に、状態の変化を確認しましょう。';
+  }
+  return '状態は落ち着いています。無理のない範囲で様子を見ながら、必要に応じてご相談ください。';
+}
 function updatePostTreatmentSummary(){
   const summary = document.getElementById('post-check-summary');
+  const nextVisit = document.getElementById('post-check-next-visit');
   if(!summary) return;
   const tenderness = getPostCheckValue('tenderness');
   const tension = getPostCheckValue('tension');
   const motion = getPostCheckValue('motion');
   const balance = getPostCheckValue('balance');
-  const memo = (document.getElementById('post-check-memo')?.value || '').trim();
-  const memoText = memo ? ` 本日の確認メモ：${memo}` : '';
-  summary.textContent = `本日の施術後チェックでは、圧痛は「${tenderness}」、筋緊張は「${tension}」、動作時の違和感は「${motion}」、左右差は「${balance}」として確認しました。今日の反応を目安に、無理のない範囲で状態を確認していきます。${memoText}`;
+  const guidance = getNextVisitGuidance([tenderness, tension, motion, balance]);
+  if(nextVisit){
+    nextVisit.textContent = guidance;
+  }
+  summary.textContent = `本日の施術後チェックでは、圧痛は「${tenderness}」、筋緊張は「${tension}」、動作時の違和感は「${motion}」、左右差は「${balance}」として確認しました。今日の反応を目安に、無理のない範囲で状態を確認していきます。`;
+}
+function showPostTreatmentCheck(){
+  const wrap = document.getElementById('interview-summary-content');
+  if(!wrap) return;
+  wrap.classList.add('post-check-open');
+  updatePostTreatmentSummary();
+  const panel = wrap.querySelector('.post-check-panel');
+  if(panel){
+    panel.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
 function renderInterviewSummary(data){
   const patient = cleanText(data.patientName);
@@ -1309,7 +1536,7 @@ function renderInterviewSummary(data){
   }).join('')}</div></section>`;
 
   document.getElementById('interview-summary-content').className = 'interview-visual-wrap';
-  document.getElementById('interview-summary-content').innerHTML = renderVisitModeSwitch() + renderVisualSummary(data) + renderDailyLifeImpact(data) + renderSymptomTags(data) + detailHtml + renderPostTreatmentCheck();
+  document.getElementById('interview-summary-content').innerHTML = renderVisitModeSwitch() + renderVisualSummary(data) + renderEmbeddedTreatmentFlow() + renderDailyLifeImpact(data) + renderSymptomTags(data) + detailHtml + renderPostTreatmentCheck();
   setInterviewVisitMode('first');
   updatePostTreatmentSummary();
 }// ===== 画面遷移 =====
