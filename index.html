@@ -1627,6 +1627,59 @@ function backToMenu(){
   showScreen('screen-menu');
 }
 
+let touchActivationStart = null;
+let lastTouchActivationAt = 0;
+function getTouchPoint(event){
+  if(event.changedTouches && event.changedTouches.length){
+    return event.changedTouches[0];
+  }
+  if(event.touches && event.touches.length){
+    return event.touches[0];
+  }
+  return event;
+}
+function rememberTouchActivationStart(event){
+  if(event.type === 'pointerdown' && event.pointerType === 'mouse') return;
+  const point = getTouchPoint(event);
+  touchActivationStart = {x:point.clientX, y:point.clientY, time:Date.now()};
+}
+function isTouchActivationMove(event){
+  if(!touchActivationStart) return false;
+  const point = getTouchPoint(event);
+  return Math.abs(point.clientX - touchActivationStart.x) > 12 || Math.abs(point.clientY - touchActivationStart.y) > 12 || Date.now() - touchActivationStart.time > 1000;
+}
+function runInlineTouchAction(target, event){
+  const action = target && target.getAttribute ? target.getAttribute('onclick') : '';
+  if(!action) return;
+  const now = Date.now();
+  if(now - lastTouchActivationAt < 450) return;
+  lastTouchActivationAt = now;
+  if(event.cancelable){
+    event.preventDefault();
+  }
+  event.stopPropagation();
+  Function('event', action).call(target, event);
+}
+function handleInlineTouchActivation(event){
+  if(event.type === 'pointerup' && event.pointerType === 'mouse') return;
+  if(isTouchActivationMove(event)) return;
+  const target = event.target && event.target.closest ? event.target.closest('[onclick]') : null;
+  if(!target || target.disabled) return;
+  runInlineTouchAction(target, event);
+}
+document.addEventListener('pointerdown', rememberTouchActivationStart, {capture:true, passive:true});
+document.addEventListener('touchstart', rememberTouchActivationStart, {capture:true, passive:true});
+document.addEventListener('pointerup', handleInlineTouchActivation, {capture:true, passive:false});
+document.addEventListener('touchend', handleInlineTouchActivation, {capture:true, passive:false});
+document.addEventListener('click', function(event){
+  if(Date.now() - lastTouchActivationAt < 450){
+    if(event.cancelable){
+      event.preventDefault();
+    }
+    event.stopPropagation();
+  }
+}, true);
+
 // 動画フォールバック（MP4がない場合はダミー表示）
 window.addEventListener('DOMContentLoaded', function(){
   const video = document.getElementById('bg-video');
